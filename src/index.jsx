@@ -53,7 +53,7 @@ function App() {
                 <div className="rs">
                     <a href="https://www.linkedin.com/in/robin-thomas-08ab10172/">linkedin</a>
                     <a href="https://www.instagram.com/maestromdigital/">Instagram</a>
-                    <a href="https://x.com/robin_thomas7">BlueSky</a>
+                    <a href="https://bsky.app/profile/robinthms.bsky.social">BlueSky</a>
                     <a href="https://x.com/robin_thomas7">X</a>
                 </div>
                 <div className="text-container">
