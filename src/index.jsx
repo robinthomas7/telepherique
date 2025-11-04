@@ -1,11 +1,12 @@
 import './scss/index.scss'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import { useFrame } from "@react-three/fiber";
 
+
 import Experience from './Experience.jsx'
-import { ScrollControls, useScroll } from '@react-three/drei';
+import { Loader, ScrollControls, useScroll } from '@react-three/drei';
 
 function ScrollWatcher({ onChange }) {
     const scroll = useScroll()
@@ -32,7 +33,7 @@ function App() {
         return () => cancelAnimationFrame(id)
     }, [])
     return (
-        <>
+        <><Suspense fallback={<Loader />}>
             <div className="container" ref={container}>
                 <Canvas
                     style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, overflow: 'hidden' }}
@@ -41,6 +42,7 @@ function App() {
                     dpr={[1, 1]}
 
                 >
+
                     <ScrollControls pages={2} damping={0.4}>
                         <ScrollWatcher onChange={progress} />
                         <Experience />
@@ -48,9 +50,18 @@ function App() {
                 </Canvas>
             </div >
             <div className="info sansita">
-                <p>Scroll Progress</p>
-                <div className="karrik" ref={info}>0%</div>
+                <div className="rs">
+                    <a href="https://www.linkedin.com/in/robin-thomas-08ab10172/">linkedin</a>
+                    <a href="https://www.instagram.com/maestromdigital/">Instagram</a>
+                    <a href="https://x.com/robin_thomas7">BlueSky</a>
+                    <a href="https://x.com/robin_thomas7">X</a>
+                </div>
+                <div className="text-container">
+                    <p>Scroll Progress</p>
+                    <div className="karrik" ref={info}>0%</div>
+                </div>
             </div>
+        </Suspense>
         </>
     )
 }

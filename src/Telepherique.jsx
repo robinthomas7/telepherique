@@ -48,7 +48,7 @@ export default function Telepherique() {
         modelRef.current.position.x = THREE.MathUtils.lerp(
             modelRef.current.position.x,
             targetX,
-            0.5 
+            0.5
         )
 
         modelRef.current.position.y = THREE.MathUtils.lerp(
@@ -59,7 +59,7 @@ export default function Telepherique() {
     })
 
     const baseRot = useRef([])
-    const state = useRef([]) 
+    const state = useRef([])
     const prevS = useRef(0)
 
     useLayoutEffect(() => {
@@ -72,10 +72,10 @@ export default function Telepherique() {
         const v = (s - prevS.current) / Math.max(dt, 1e-3) // vitesse de scroll
         prevS.current = s
 
-        // paramètres physiques (ajuste juste ces 3 valeurs)
+
         const k = 100   // raideur
         const d = 1    // amortissement
-        const torqueGain = 20// influence du scroll
+        const torqueGain = 30// influence du scroll
 
         meshRefs.current.forEach((m, i) => {
             if (!m) return
@@ -99,7 +99,7 @@ export default function Telepherique() {
                 castShadow
                 receiveShadow
                 geometry={nodes.Cabine.geometry}
-                // material={whiteMaterial}
+
                 material={redMaterial}
                 position={[-0.003, 3.131, 0.184]}
 
@@ -109,7 +109,7 @@ export default function Telepherique() {
                 castShadow
                 receiveShadow
                 geometry={nodes.Armature.geometry}
-                // material={aluMaterial}
+
                 material={aluMaterial}
                 position={[-0.003, 3.131, 0.184]}
             />
@@ -127,7 +127,7 @@ export default function Telepherique() {
                 receiveShadow
                 geometry={nodes.rebord.geometry}
                 material={aluMaterial}
-                // material={whiteMaterial}
+
                 position={[-0.003, 3.131, 0.184]}
             />
             <mesh

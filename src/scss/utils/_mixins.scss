@@ -1,0 +1,14 @@
+@use './variables' as *;
+@use 'sass:map';
+
+@mixin for-size($size) {
+  $value: map.get($breakpoints, $size);
+
+  @if $value {
+    @media (max-width: $value) {
+      @content;
+    }
+  } @else {
+    @warn "⚠️ Breakpoint #{$size} non défini dans \$breakpoints.";
+  }
+}

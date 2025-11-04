@@ -1,0 +1,52 @@
+@use 'sass:math';
+@use 'sass:map';
+@use './variables' as *; // doit exposer $breakpoints (en px)
+
+// base rem (surcharge possible avant import)
+$root-size: 16px !default;
+
+// Helpers
+@function px-to-rem($px) { @return math.div($px, $root-size) * 1rem; }
+@function _bp-to-unit($px, $unit) {
+  @if $unit == rem { @return px-to-rem($px); }
+  @if $unit == px  { @return $px; }
+  @error "Unité #{$unit} non supportée (px/rem).";
+}
+@function _coerce-zero($val, $unit) {
+  @if math.is-unitless($val) and $val == 0 {
+    @return if($unit == rem, 0rem, 0px);
+  }
+  @return $val;
+}
+
+// Fluid clamp: min/max en px ou rem, vmin/vmax = clés de $breakpoints (en px)
+@function fluid($min, $max, $vmin: phone-only, $vmax: desktop-up) {
+  $vmin-px: map.get($breakpoints, $vmin);
+  $vmax-px: map.get($breakpoints, $vmax);
+
+  @if $vmin-px == null or $vmax-px == null {
+    @error "Breakpoint #{$vmin} ou #{$vmax} introuvable dans $breakpoints.";
+  }
+
+  // unités de min/max
+  $umin: math.unit($min);
+  $umax: math.unit($max);
+
+  // normalise les zéros unitless
+  @if $umin == '' and $umax != '' { $min: _coerce-zero($min, $umax); $umin: math.unit($min); }
+  @if $umax == '' and $umin != '' { $max: _coerce-zero($max, $umin); $umax: math.unit($max); }
+  @if $umin == '' and $umax == '' { $min: 0px; $max: 0px; $umin: px; $umax: px; }
+
+  @if $umin != $umax { @error "Unités différentes: $min (#{math.unit($min)}) vs $max (#{math.unit($max)})."; }
+  @if not ($umin == px or $umin == rem) { @error "Unité #{$umin} non supportée (px/rem)."; }
+
+  // convertit les breakpoints px -> unité de min/max
+  $vmin-u: _bp-to-unit($vmin-px, $umin);
+  $vmax-u: _bp-to-unit($vmax-px, $umin);
+
+  // pente (unitless) et intercept (en unité de min/max)
+  $slope: math.div(($max - $min), ($vmax-u - $vmin-u));
+  $intercept: $min - $slope * $vmin-u;
+
+  @return clamp(#{$min}, calc(#{$intercept} + #{$slope} * 100vw), #{$max});
+}

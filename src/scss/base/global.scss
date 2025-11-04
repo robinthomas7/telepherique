@@ -1,3 +1,5 @@
+@use '../utils' as *;
+
 * {
     box-sizing: border-box;
 }
@@ -40,13 +42,36 @@ body,
 
 .info {
     position: fixed;
-    right: 100px;
-    bottom: 50px;
-    color: #fff;
-    font-size: 100px;
+    width: 100vw;
+    height: 100vh;
+    color: $dark;
+    font-size: fluid(50px, 100px, phone-only, desktop-up); ;
     pointer-events: none;
-    text-align: center;
+    padding: 50px fluid(50px, 120px, phone-only, desktop-up); 
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
     p {
         font-size: 20px;
+    }
+
+    .rs {
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: fluid(0px, 16px, phone-only, desktop-up); ;
+        gap: 0.2rem;
+        a{
+            text-decoration: none;
+            color: $dark;
+            cursor: pointer;
+            pointer-events: all;
+        }
     }
 }
